@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+<ul class="nav nav-tabs mb-4" id="secondary-nav">
+  <li class="nav-item">
+    <a class="nav-link active-s" href="{% url 'posts:homepage' %}">All</a>
+  </li>
+  {% for website in websites %}
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'posts:sort_by_site_name' website.name %}">{{ website.name }}</a>
+  </li>
+  {% endfor %}
+</ul>
+
+{% if messages %}
+{% for message in messages %}
+    {% if 'warning' in message.tags %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {% endif %}
+
+    {% if 'success' in message.tags %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {% endif %}
+
+    {% if 'info' in message.tags %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+    {% endif %}
+
+    {% if 'debug' in message.tags %}
+    <div class="alert alert-dark  alert-dismissible fade show" role="alert">
+    {% endif %}
+
+    {% if 'error' in message.tags %}
+    <div class="alert alert-secondary  alert-dismissible fade show" role="alert">
+    {% endif %}
+    
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
+{% endif %}
+
+<div class="row">
+    <div class="col-lg-8">
+        {% if site_name %}
+          <h5>{{ site_name }} Articles <i class="far fa-newspaper"></i></h5>
+        {% else %}
+          <h5>All Articles <i class="far fa-newspaper"></i></h5>
+        {% endif %}
+        <hr class="mt-0">
+        <div class="content">
+
+            {% if posts %}
+              {% for post in posts %}
+                <div class="title">
+                    <span class="counter">{{ forloop.counter }}</span>
+                    <a href="{{ post.link }}" class="post-title" target="_black">{{ post.title|truncatechars:55 }}</a>
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <blockquote  class="blockquote-footer">
+                    <span class="posted-on">
+                        <!-- <i class="fas fa-calendar-alt"></i> -->
+                        <strong>{{ post.created_at|timesince }}</strong>
+                        <span class="mx-1">&#8226</span>
+                    </span>
+                    <span class="fav-it">
+                        {% if post.favourit %}
+                        <a href="{% url 'posts:favourit_it' post.id %}" id='fav-it'>
+                            <i class="fas fa-star" style="color: gold"></i>
+                        </a>
+                        {% else %}
+                          <a href="{% url 'posts:favourit_it' post.id %}" id='fav-it'>
+                            <i class="fas fa-star"></i>
+                          </a>
+                        {% endif %}
+                        <span class="mx-1">&#8226</span>
+                    </span>
+                    <span class="comments">
+                        {% if post.comments %} 
+                            <i class="fas fa-comments"></i>
+                            <strong>{{ post.comments }}</strong>
+                            &#8226
+                        {% endif %}
+                    </span>
+                    <span class="visits">
+                        {% if post.visits %} 
+                            <i class="fas fa-user-friends"></i>
+                            <strong>{{ post.visits }}</strong>
+                            &#8226
+                        {% endif %}
+                    </span>
+                    <span class="tags">
+                        <i class="fas fa-tags"></i>
+                        {% for tag in post.tags.all %}
+                            <a class="badge" href='{% url 'posts:homepage' tag.name %}'>{{ tag.name }}</a>
+                        {% endfor %}
+                    </span>
+                    <strong>{{ post.website }}</strong>  
+
+                </blockquote >
+              {% endfor %}
+            {% else %}
+              <strong>No post avalible.</strong>
+            {% endif %}
+
+
+            {% if reddit_posts %}
+              <h5>Only Reddit Articles <i class="far fa-newspaper"></i></h5>
+              <hr class="mt-0">
+            {% for post in reddit_posts %}
+              <div class="title">
+                  <span class="counter">{{ forloop.counter }}</span>
+                  <a href="{{ post.link }}" class="post-title" target="_black">{{ post.title|truncatechars:55 }}</a>
+                  <i class="fas fa-external-link-alt"></i>
+              </div>
+              <blockquote  class="blockquote-footer">
+                  <span class="posted-on">
+                      <!-- <i class="fas fa-calendar-alt"></i> -->
+                      <strong>{{ post.created_at|timesince }}</strong>
+                      <span class="mx-1">&#8226</span>
+                  </span>
+                  <span class="fav-it">
+                      {% if post.favourit %}
+                      <a href="{% url 'posts:favourit_it' post.id %}" id='fav-it'>
+                          <i class="fas fa-star" style="color: gold"></i>
+                      </a>
+                      {% else %}
+                        <a href="{% url 'posts:favourit_it' post.id %}" id='fav-it'>
+                          <i class="fas fa-star"></i>
+                        </a>
+                      {% endif %}
+                      <span class="mx-1">&#8226</span>
+                  </span>
+                  <span class="comments">
+                      {% if post.comments %} 
+                          <i class="fas fa-comments"></i>
+                          <strong>{{ post.comments }}</strong>
+                          &#8226
+                      {% endif %}
+                  </span>
+                  <span class="visits">
+                      {% if post.visits %} 
+                          <i class="fas fa-user-friends"></i>
+                          <strong>{{ post.visits }}</strong>
+                          &#8226
+                      {% endif %}
+                  </span>
+                  <span class="tags">
+                      <i class="fas fa-tags"></i>
+                      {% for tag in post.tags.all %}
+                          <a class="badge" href='{% url 'posts:homepage' tag.name %}'>{{ tag.name }}</a>
+                      {% endfor %}
+                  </span>
+                  <strong>{{ post.website }}</strong>  
+
+              </blockquote >
+            {% endfor %}
+          {% else %}
+            <strong>No post avalible.</strong>
+          {% endif %}
+
+        </div>
+
+    </div>
+    <div class="col-lg-4 side-nav">
+        <div class="mb-2">
+            <h5>Recent visited <i class="fas fa-history"></i></h5>
+            <hr class="mt-0">
+            <strong class="text-muted">None</strong>
+        </div>
+
+        <div class="mb-2">
+            <h5>Tags <i class="fas fa-tags"></i></h5>
+            <hr class="mt-0">
+            {% for tag in tags %}
+                <a href="{% url 'posts:homepage' tag.name %}">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer font-small cyan darken-3">
+
+    <!-- Footer Elements -->
+    <div class="container">
+  
+      <!-- Grid row-->
+      <div class="row">
+  
+        <!-- Grid column -->
+        <div class="col-md-12 py-5 mt-3 footer-link">
+          <div class="flex-center">
+            <!-- Facebook -->
+            <a class="fb-ic">
+              <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!-- Twitter -->
+            <a class="tw-ic">
+              <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!-- Google +-->
+            <a class="gplus-ic">
+              <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!--Linkedin -->
+            <a class="li-ic">
+              <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!--Instagram-->
+            <a class="ins-ic">
+              <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!--Pinterest-->
+            <a class="pin-ic">
+              <i class="fab fa-pinterest fa-lg white-text fa-2x"> </i>
+            </a>
+          </div>
+        </div>
+        <!-- Grid column -->
+  
+      </div>
+      <!-- Grid row-->
+  
+    </div>
+    <!-- Footer Elements -->
+  
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+      <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+  
+</footer>
+  <!-- Footer -->
+
+{% endblock %}
