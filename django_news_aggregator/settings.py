@@ -135,6 +135,11 @@ DATABASES = {
 TIMEOUT = 7 * 24 * 3600
 
 CELERY_BROKER_URL = 'rediss://:pf690926d092c90d8aa6ae84bc8eaf593853504735c64b81e2b03bfc4d0d8776e@ec2-3-213-255-205.compute-1.amazonaws.com:13410'
+CELERY_RESULT_BACKEND = 'rediss://:pf690926d092c90d8aa6ae84bc8eaf593853504735c64b81e2b03bfc4d0d8776e@ec2-3-213-255-205.compute-1.amazonaws.com:13410'
+
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 import dj_database_url 
 prod_db  =  dj_database_url.config(conn_max_age=500)
