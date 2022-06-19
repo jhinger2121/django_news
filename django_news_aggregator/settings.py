@@ -16,7 +16,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -28,6 +28,7 @@ SECRET_KEY = '=%i%_ublpdwj%5&nm(q7)b1+zx1i!qt2(z381iniwj$f8wz-20m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['djangoarticle.herokuapp.com', '127.0.0.1']
 
 
@@ -134,12 +135,15 @@ DATABASES = {
 
 TIMEOUT = 7 * 24 * 3600
 
-CELERY_BROKER_URL = 'rediss://:pf690926d092c90d8aa6ae84bc8eaf593853504735c64b81e2b03bfc4d0d8776e@ec2-3-213-255-205.compute-1.amazonaws.com:13410'
-CELERY_RESULT_BACKEND = 'rediss://:pf690926d092c90d8aa6ae84bc8eaf593853504735c64b81e2b03bfc4d0d8776e@ec2-3-213-255-205.compute-1.amazonaws.com:13410'
-
+CELERY_BROKER_URL = 'rediss://:pa1367332d44205a01acfff32a874b5fa40c133e71e1d6b412b246455f2c27d15@ec2-18-210-137-167.compute-1.amazonaws.com:27940'
+CELERY_RESULT_BACKEND = 'rediss://:pa1367332d44205a01acfff32a874b5fa40c133e71e1d6b412b246455f2c27d15@ec2-18-210-137-167.compute-1.amazonaws.com:27940'
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TIMEZONE = 'UTC'
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 import dj_database_url 
 prod_db  =  dj_database_url.config(conn_max_age=500)

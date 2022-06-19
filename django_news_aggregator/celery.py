@@ -7,21 +7,25 @@ from django.conf import settings
 from django.apps import apps
 
 from celery import shared_task
-
+import ssl
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_news_aggregator.settings')
 # BASE_REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+key_file = '/tmp/keyfile.key'
+cert_file = '/tmp/certfile.crt'
+ca_file = '/tmp/CAtmp.pem'
 
 
 app = Celery('django_news_aggregator')
+app.conf.redis_backend_use_ssl = {
+                 'ssl_keyfile': key_file, 'ssl_certfile': cert_file,
+                 'ssl_ca_certs': ca_file,
+                 'ssl_cert_reqs': 'CERT_REQUIRED'
+            }
 
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
-# lambda: [n.name for n in apps.get_app_configs()]
-# lambda: settings.INSTALLED_APPS, force=True
-# app.conf.broker_url = BASE_REDIS_URL
-# app.conf.C_FORCE_ROOT = 1
 
 if __name__ == '__main__':
     app.start()
@@ -30,21 +34,10 @@ if __name__ == '__main__':
 def debug_task(self):
     print('Request: {0!r}'.format(self.request))
 
-
-# app.conf.beat_schedule = {
-#     'add-every-30-seconds': {
-#         'task': 'sum_two_numbers',
-#         'schedule': 30.0,
-#         'args': (16, 16)
-#     },
-# }
-
-
-# Other Celery settings
 app.conf.beat_schedule = {
     'take_every_day_data': {
         'task': 'extract_data',
-        'schedule': 3600 * 24,
+        'schedule': 10,
     },
 }
 
