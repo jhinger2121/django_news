@@ -1,1 +1,1 @@
-web: gunicorn django_news_aggregator.wsgi:application --log-file -
+web: honcho start -f ProcfileHoncho
