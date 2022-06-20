@@ -135,8 +135,8 @@ DATABASES = {
 
 TIMEOUT = 7 * 24 * 3600
 
-CELERY_BROKER_URL = 'rediss://:pa1367332d44205a01acfff32a874b5fa40c133e71e1d6b412b246455f2c27d15@ec2-18-210-137-167.compute-1.amazonaws.com:27940'
-CELERY_RESULT_BACKEND = 'rediss://:pa1367332d44205a01acfff32a874b5fa40c133e71e1d6b412b246455f2c27d15@ec2-18-210-137-167.compute-1.amazonaws.com:27940'
+CELERY_BROKER_URL = 'redis://:p31597f53c1a12263faad1db77cd4d0b6a20b35c04d66121d01d7b11efc4a944c@ec2-3-213-255-205.compute-1.amazonaws.com:16570'
+CELERY_RESULT_BACKEND = 'redis://:p31597f53c1a12263faad1db77cd4d0b6a20b35c04d66121d01d7b11efc4a944c@ec2-3-213-255-205.compute-1.amazonaws.com:16570'
 # CELERY_BROKER_URL = 'redis://localhost:6379'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
