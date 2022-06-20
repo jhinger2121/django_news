@@ -37,7 +37,7 @@ def debug_task(self):
 app.conf.beat_schedule = {
     'take_every_day_data': {
         'task': 'extract_data',
-        'schedule': 10,
+        'schedule': 100,
     },
 }
 
