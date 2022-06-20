@@ -1,5 +1,5 @@
 web: gunicorn django_news_aggregator.wsgi:application --log-file -
-celery: celery -A django_news_aggregator worker -l info
 beat: celery -A django_news_aggregator beat -l info
+celery: celery -A django_news_aggregator worker -l info
 
 
