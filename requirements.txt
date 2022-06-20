@@ -19,6 +19,8 @@ django-taggit==3.0.0
 dnspython==2.2.1
 eventlet==0.33.1
 greenlet==1.1.2
+gunicorn==20.1.0
+honcho==1.1.0
 idna==3.3
 kombu==5.2.4
 packaging==21.3
