@@ -24,14 +24,6 @@ DATABASES = {
     }
 }
 
-# Caches
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'my_cache_table',
-        'TIMEOUT': 1296000,
-    }
-}
 
 # CELERY SETTINGS
 CELERY_BROKER_URL = 'rediss://:p31597f53c1a12263faad1db77cd4d0b6a20b35c04d66121d01d7b11efc4a944c@ec2-3-213-255-205.compute-1.amazonaws.com:16570'
