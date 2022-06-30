@@ -11,7 +11,7 @@ INSTALLED_APPS += [
 ]
 
 MIDDLEWARE += [
-    
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 # Database
@@ -46,3 +46,9 @@ CELERY_TIMEZONE = 'UTC'
 CELERY_IMPORTS = (
     'posts.tasks'
 )
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+import dj_database_url 
+prod_db  =  dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
