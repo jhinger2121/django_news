@@ -3,7 +3,8 @@ from django_news_aggregator.settings.base import *
 
 
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['djangoarticle.herokuapp.com', '127.0.0.1']
+
 
 INSTALLED_APPS += [
 
