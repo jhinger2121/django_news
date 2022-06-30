@@ -34,8 +34,8 @@ CACHES = {
 }
 
 # CELERY SETTINGS
-CELERY_BROKER_URL = 'redis://:p31597f53c1a12263faad1db77cd4d0b6a20b35c04d66121d01d7b11efc4a944c@ec2-3-213-255-205.compute-1.amazonaws.com:16570'
-CELERY_RESULT_BACKEND = 'redis://:p31597f53c1a12263faad1db77cd4d0b6a20b35c04d66121d01d7b11efc4a944c@ec2-3-213-255-205.compute-1.amazonaws.com:16570'
+CELERY_BROKER_URL = 'rediss://:p31597f53c1a12263faad1db77cd4d0b6a20b35c04d66121d01d7b11efc4a944c@ec2-3-213-255-205.compute-1.amazonaws.com:16570'
+CELERY_RESULT_BACKEND = 'rediss://:p31597f53c1a12263faad1db77cd4d0b6a20b35c04d66121d01d7b11efc4a944c@ec2-3-213-255-205.compute-1.amazonaws.com:16570'
 # CELERY_BROKER_URL = 'redis://localhost:6379'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
