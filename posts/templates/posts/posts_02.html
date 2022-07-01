@@ -1,84 +1,113 @@
 {% extends 'base.html' %}
 
 {% block main_content %}
+<div class="col-lg-8">
 
-{% if site_name %}
-  <h5>{{ site_name }} Articles <i class="far fa-newspaper"></i></h5>
-{% else %}
-  <h5>All Articles <i class="far fa-newspaper"></i></h5>
-{% endif %}
-<hr class="mt-0">
+  {% if site_name %}
+    <h5>{{ site_name }} Articles <i class="far fa-newspaper"></i></h5>
+  {% else %}
+    <h5>All Articles <i class="far fa-newspaper"></i></h5>
+  {% endif %}
+  <hr class="mt-0">
 
-<div class="content">
-    {% if posts %}
-      {% for post in posts %}
-        <div class="title">
-            <span class="counter">{{ forloop.counter }}</span>
-            <a href="{% url 'posts:page_detail' post.id %}" class="post-title" target="_black">{{ post.title|truncatechars:55 }}</a>
-            <i class="fas fa-external-link-alt"></i>
-        </div>
-        <blockquote  class="blockquote-footer">
-            <span class="posted-on">
-                <i class="bi bi-calendar-date-fill"></i>
-                <strong>{{ post.created_at|timesince }}</strong>
-                <span class="mx-1">&#8226</span>
-            </span>
-            <span class="fav-it">
-                {% if post.favourit %}
-                <a href="{% url 'posts:favourit_it' post.id %}" id='fav-it'>
-                    <i class="fas fa-star fav-rit"></i>
-                </a>
-                <span class="mx-1">&#8226</span>
-                {% else %}
+  <div class="content">
+      {% if posts %}
+        {% for post in posts %}
+          <div class="title">
+              <span class="counter">{{ forloop.counter }}</span>
+              <a href="{% url 'posts:page_detail' post.id %}" class="post-title" target="_black">{{ post.title|truncatechars:55 }}</a>
+              <i class="fas fa-external-link-alt"></i>
+          </div>
+          <blockquote  class="blockquote-footer">
+              <span class="posted-on">
+                  <i class="bi bi-calendar-date-fill"></i>
+                  <strong>{{ post.created_at|timesince }}</strong>
+                  <span class="mx-1">&#8226</span>
+              </span>
+              <span class="fav-it">
+                  {% if post.favourit %}
                   <a href="{% url 'posts:favourit_it' post.id %}" id='fav-it'>
-                    <i class="fas fa-star"></i>
+                      <i class="fas fa-star fav-rit"></i>
                   </a>
-                {% endif %}
-            </span>
-            <span class="comments">
-                {% if post.comments %} 
-                    <i class="bi bi-chat-left-text-fill"></i>
-                    <strong>{{ post.comments }}</strong>
-                    &#8226
-                {% endif %}
-            </span>
-            <span class="visits">
-                {% if post.visits %} 
-                    <i class="bi bi-people-fill"></i>
-                    <strong>{{ post.visits }}</strong>
-                    &#8226
-                {% endif %}
-            </span>
-            <span class="tags">
-                <i class="bi bi-bookmark-fill"></i>
-                {% for tag in post.tags.all %}
-                    <a class="badge" href='{% url 'posts:homepage' tag.name %}'>{{ tag.name }}</a>
-                {% endfor %}
-            </span>
-            <strong>{{ post.website }}</strong>  
-        </blockquote >
-      {% endfor %}
-    {% else %}
-      <strong>No post avalible.</strong>
-    {% endif %}
+                  <span class="mx-1">&#8226</span>
+                  {% else %}
+                    <a href="{% url 'posts:favourit_it' post.id %}" id='fav-it'>
+                      <i class="fas fa-star"></i>
+                    </a>
+                  {% endif %}
+              </span>
+              <span class="comments">
+                  {% if post.comments %} 
+                      <i class="bi bi-chat-left-text-fill"></i>
+                      <strong>{{ post.comments }}</strong>
+                      &#8226
+                  {% endif %}
+              </span>
+              <span class="visits">
+                  {% if post.visits %} 
+                      <i class="bi bi-people-fill"></i>
+                      <strong>{{ post.visits }}</strong>
+                      &#8226
+                  {% endif %}
+              </span>
+              <span class="tags">
+                  <i class="bi bi-bookmark-fill"></i>
+                  {% for tag in post.tags.all %}
+                      <a class="badge" href='{% url 'posts:homepage' tag.name %}'>{{ tag.name }}</a>
+                  {% endfor %}
+              </span>
+              <strong>{{ post.website }}</strong>  
+          </blockquote >
+        {% endfor %}
+      {% else %}
+        <strong>No post avalible.</strong>
+      {% endif %}
+  </div>
+
+  <div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ posts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}">next</a>
+            <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
 </div>
 
-<div class="pagination">
-  <span class="step-links">
-      {% if posts.has_previous %}
-          <a href="?page=1">&laquo; first</a>
-          <a href="?page={{ posts.previous_page_number }}">previous</a>
+<div class="col-lg-4 side-nav">
+  <div class="mb-2">
+      <h5>Recent visited <i class="fas fa-history"></i></h5>
+      <hr class="mt-0">
+      {% if recent_posts %}
+          {% for post in recent_posts %}
+              <a href="{{ post.link }}" target="_black">{{ forloop.counter }}. {{ post.title|truncatechars:28 }}</a><br>
+          {% endfor %}
+      {% else %}
+          <strong class="text-muted">None</strong>
       {% endif %}
+  </div>
 
-      <span class="current">
-          Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-      </span>
-
-      {% if posts.has_next %}
-          <a href="?page={{ posts.next_page_number }}">next</a>
-          <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
-      {% endif %}
-  </span>
+  <div class="mb-2">
+      <h5>Tags <i class="fas fa-tags"></i></h5>
+      <hr class="mt-0">
+      {% for tag in tags %}
+          {% if website_name %}
+              <a href="{% url 'posts:sort_by_website' website_name tag.name %}">{{ tag.name }}</a>
+          {% else %}
+              <a href="{% url 'posts:homepage' tag.name %}">{{ tag.name }}</a>
+          {% endif %}
+      {% endfor %}
+      
+  </div>
 </div>
 
 {% endblock %}

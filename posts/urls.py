@@ -6,6 +6,7 @@ app_name = "posts"
 urlpatterns = [
     path('', views.homepage, name="homepage"),
     path('tag=<str:tag_name>/', views.homepage, name="homepage"),
+    path('about-me/', views.about, name="about_me"),
 
     path('post=<post_id>/', views.page_detail, name="page_detail"),
 

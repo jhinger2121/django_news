@@ -22,6 +22,7 @@ def homepage(request, tag_name=None):
     return render(request, 'posts/posts_01.html', {'posts': page_obj})
 
 def sort_by_website(request, website_name, tag_name=None):
+    
     posts = Posts.objects.filter(website__name=website_name)
     if website_name and tag_name:
        posts = posts.filter(tags__name__in=[tag_name])
@@ -60,3 +61,7 @@ def favourit_it(request, post_id):
     post.favourit = True
     post.save()
     return redirect('/')
+
+def about(request):
+    print("you are in about seccions")
+    return render(request, 'posts/about.html', {})

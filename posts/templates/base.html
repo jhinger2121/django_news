@@ -49,36 +49,9 @@
                 
                                 
                 <div class="row">
-                    <div class="col-lg-8">
-                        {% block main_content %}{% endblock %}
-                    </div>
+                    {% block main_content %}{% endblock %}
+
                     
-                    <div class="col-lg-4 side-nav">
-                        <div class="mb-2">
-                            <h5>Recent visited <i class="fas fa-history"></i></h5>
-                            <hr class="mt-0">
-                            {% if recent_posts %}
-                                {% for post in recent_posts %}
-                                    <a href="{{ post.link }}" target="_black">{{ forloop.counter }}. {{ post.title|truncatechars:28 }}</a><br>
-                                {% endfor %}
-                            {% else %}
-                                <strong class="text-muted">None</strong>
-                            {% endif %}
-                        </div>
-                
-                        <div class="mb-2">
-                            <h5>Tags <i class="fas fa-tags"></i></h5>
-                            <hr class="mt-0">
-                            {% for tag in tags %}
-                                {% if website_name %}
-                                    <a href="{% url 'posts:sort_by_website' website_name tag.name %}">{{ tag.name }}</a>
-                                {% else %}
-                                    <a href="{% url 'posts:homepage' tag.name %}">{{ tag.name }}</a>
-                                {% endif %}
-                            {% endfor %}
-                            
-                        </div>
-                    </div>
                 </div>
 
 
@@ -96,7 +69,7 @@
                             Copyright &copy; 2022 Django News
                         </p>
                         <div class="footer-link">
-                            <a href="#" class="stretched-link">About me</a>
+                            <a href="{% url 'posts:about_me' %}" class="stretched-link">About me</a>
                             |
                             <a href="https://github.com/jhinger2121/django_news_aggregator" target="_blank">Github</a>
                         </div>
