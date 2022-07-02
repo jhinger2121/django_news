@@ -14,11 +14,11 @@ ca_file = '/tmp/CAtmp.pem'
 
 
 app = Celery('django_news_aggregator')
-app.conf.redis_backend_use_ssl = {
-                 'ssl_keyfile': key_file, 'ssl_certfile': cert_file,
-                 'ssl_ca_certs': ca_file,
-                 'ssl_cert_reqs': 'CERT_REQUIRED'
-            }
+# app.conf.redis_backend_use_ssl = {
+#                  'ssl_keyfile': key_file, 'ssl_certfile': cert_file,
+#                  'ssl_ca_certs': ca_file,
+#                  'ssl_cert_reqs': 'CERT_REQUIRED'
+#             }
             
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
