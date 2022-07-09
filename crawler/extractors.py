@@ -27,7 +27,6 @@ def extract_djangostars(response):
         _visits = card.find('div', class_='views')
         if _visits:
             t_visits = re.findall(r'\d+', _visits.text)
-            print(t_visits)
             visits = t_visits[0].replace("/", "")
 
             djangostars_article['visits'] = visits
@@ -132,7 +131,6 @@ def extract_django_project(response):
             newsPost['post_by'] = ''
 
         _headline = news.p
-        print(_headline)
         if (_headline):
             newsPost['headline'] = _headline.text
         else:
@@ -150,10 +148,10 @@ def extract_number_1(response):
     posts_of_number1 = []
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    post_wraper_list = soup.find_all('div', class_='card')
+    post_wraper_list = soup.find_all('article', class_='post')
     for post_list in post_wraper_list:
         a_post_of_number1 = {}
-        _title = post_list.find('h1', class_='entry-title')
+        _title = post_list.find('h2', class_='entry-title')
         if _title:
             title = _title.a.text
             a_post_of_number1['title'] = title.strip()
@@ -164,25 +162,17 @@ def extract_number_1(response):
             a_post_of_number1['title'] = ''
             a_post_of_number1['link'] = ''
 
-        created_at = post_list.find('time', class_='entry-date published')
-        updated_at = post_list.find('time', class_='updated')
-        if updated_at:
-            updated_at = updated_at['datetime']
-            a_post_of_number1['created_at'] = updated_at
-        elif created_at:
-            created_at = created_at['datetime']
-            a_post_of_number1['created_at'] = created_at
-        else:
-            a_post_of_number1['created_at'] = datetime.now()
 
-        post_by = post_list.find('span', class_='author vcard')
-        if post_by:
-            post_by = post_by.get_text()
-            a_post_of_number1['post_by'] = post_by
+        post_by = post_list.find('li', class_='post-author')
+        author = post_by.find('span', class_='meta-text')
+        if author:
+            author = author.get_text()
+            if 'By me' in author:
+                a_post_of_number1['post_by'] = "Number_1_owner"
         else:
-            a_post_of_number1['post_by'] = ''
+            a_post_of_number1['post_by'] = author
 
-        tags_wraper = post_list.find('span', class_='cat-links')
+        tags_wraper = post_list.find('div', class_='entry-categories')
         tags = tags_wraper.find_all('a')
         if tags_wraper and tags:
             tags_of_number1 = []
@@ -196,6 +186,8 @@ def extract_number_1(response):
         a_post_of_number1['comments'] = 0
         a_post_of_number1['visits'] = 0
         a_post_of_number1['headline'] = 0
+        a_post_of_number1['created_at'] = datetime.now()
+
 
         posts_of_number1.append(a_post_of_number1)
     return posts_of_number1
@@ -237,10 +229,12 @@ def extract_justdjango(response):
         else:
             a_post_obj['post_by'] = ''
 
+        time = _author.find('time')
+
         a_post_obj['rating'] = 0
         a_post_obj['comments'] = 0
         a_post_obj['visits'] = 0
-        a_post_obj['created_at'] = datetime.now()
+        a_post_obj['created_at'] = time['datetime']
 
         justDjango_posts.append(a_post_obj)
     return justDjango_posts

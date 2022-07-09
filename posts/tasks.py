@@ -13,7 +13,8 @@ url_list = [
     'https://www.djangoproject.com/weblog/',
     'https://djangostars.com/blog/tag/django-framework/',
     'https://djangotricks.blogspot.com/',
-    'https://number1.co.za/category/django-2/',
+    # 'https://number1.co.za/category/django-2/',
+    'https://number1.co.za/?s=django'
 ]
 
 

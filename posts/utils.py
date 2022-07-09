@@ -33,7 +33,10 @@ def save_to_db(url, posts):
             post = Posts.objects.get_or_create(website=website, link=a_post['link'])[0]
             post.title = a_post['title']
             post.author = a_post['post_by']
-            post.created_at = a_post['created_at']
+            if post.created_at:
+                pass
+            else:
+                post.created_at = a_post['created_at']
             post.rating = a_post['rating']
             post.comments = a_post['comments']
             post.visits = a_post['visits']

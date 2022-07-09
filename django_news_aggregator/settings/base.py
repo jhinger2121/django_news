@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'posts',
     'taggit',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
