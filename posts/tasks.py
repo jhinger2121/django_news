@@ -8,6 +8,7 @@ from .utils import save_to_db
 import logging
 
 url_list = [
+    'https://www.djangoproject.com/community/blogs/',
     'https://justdjango.com/blog',
     'https://djangocentral.com/articles/',
     'https://www.djangoproject.com/weblog/',
@@ -23,7 +24,7 @@ def main():
     for url in url_list:
         request = MakeRequest()
         response = request._get(url)
-        print(response.status_code)
+        print("**************************** scraper started &&&&&&&&&&&&&&&&&&&&&&&&", response.status_code)
         if 'djangostars' in url:
             dj_data = extract_djangostars(response)
             save_to_db(url, dj_data)

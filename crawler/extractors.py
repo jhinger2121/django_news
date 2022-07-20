@@ -118,23 +118,32 @@ def extract_django_project(response):
         else:
             newsPost['title'] = ''
             newsPost['link'] = ''
-            
-        name_n_date = news.select_one("span.meta")
-        if name_n_date:
-            post_by = name_n_date.strong.text.strip()
-            newsPost['post_by'] = post_by.strip()
         
-            # _created_at = name_n_date.text
-            # created_at = _created_at.replace(post_by, '').replace('Posted', '').replace('by', '').replace('on', '')
-            # newsPost['created_at'] = created_at.strip()
-        else:
-            newsPost['post_by'] = ''
+        try:
+            name_n_date = news.select_one("span.meta")
+            if name_n_date:
+                post_by = name_n_date.strong.text.strip()
+                newsPost['post_by'] = post_by.strip()
+            else:
+                newsPost['post_by'] = ''
+        except:
+            post_by = news.find('span', class_="meta")
+            if post_by.a:
+                newsPost['post_by'] = post_by.a.text
+            else:
+                newsPost['post_by'] = ''
 
-        _headline = news.p
-        if (_headline):
-            newsPost['headline'] = _headline.text
+
+
+        if ('www.djangoproject.com/community/blogs/' in response.url):
+            newsPost['headline'] = news.div.text[1:-1]
         else:
-            newsPost['headline'] = ''
+            _headline = news.p
+            if (_headline):
+                newsPost['headline'] = _headline.text
+            else:
+                newsPost['headline'] = ''
+        
 
         # fake data
         newsPost['rating'] = 0
